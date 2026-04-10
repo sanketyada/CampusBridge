@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Share2, MoreHorizontal, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -62,7 +62,7 @@ const PostCard = ({ post }) => {
             {post.isAnonymous ? (
               <User size={20} className="text-slate-400" />
             ) : post.user?.profilePicture ? (
-              <img src={`http://localhost:5000${post.user.profilePicture}`} alt="Avatar" className="w-full h-full object-cover" />
+              <img src={`${API_BASE_URL}${post.user.profilePicture}`} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               post.user?.name?.[0] || '?'
             )}
@@ -141,7 +141,7 @@ const PostCard = ({ post }) => {
               <div key={index} className="flex gap-3">
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-400 overflow-hidden">
                   {comment.user?.profilePicture ? (
-                    <img src={`http://localhost:5000${comment.user.profilePicture}`} className="w-full h-full object-cover" />
+                    <img src={`${API_BASE_URL}${comment.user.profilePicture}`} className="w-full h-full object-cover" />
                   ) : (
                     comment.name?.[0]
                   )}

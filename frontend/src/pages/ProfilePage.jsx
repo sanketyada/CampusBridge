@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Camera, Edit3, Save, User, FileText, Upload } from 'lucide-react';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 import { ProfileSkeleton } from '../components/Skeleton';
 
 const ProfilePage = () => {
@@ -82,7 +82,7 @@ const ProfilePage = () => {
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white p-2 shadow-xl">
               {authUser.profilePicture ? (
                 <img 
-                  src={`http://localhost:5000${authUser.profilePicture}`} 
+                  src={`${API_BASE_URL}${authUser.profilePicture}`} 
                   alt="Profile" 
                   className="w-full h-full object-cover rounded-2xl"
                 />

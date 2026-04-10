@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Download, ThumbsUp, MoreVertical, ExternalLink } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 
 const ResourceCard = ({ resource }) => {
   const { user } = useAuth();
@@ -32,7 +32,7 @@ const ResourceCard = ({ resource }) => {
       return;
     }
     // Logic to download from backend
-    window.open(`http://localhost:5000${resource.fileUrl}`, '_blank');
+    window.open(`${API_BASE_URL}${resource.fileUrl}`, '_blank');
   };
 
   return (

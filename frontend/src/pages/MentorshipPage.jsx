@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Award, Star, UserCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 import GuestBanner from '../components/GuestBanner';
 
 const MentorshipPage = () => {
@@ -57,7 +57,7 @@ const MentorshipPage = () => {
               
               <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center font-black text-2xl text-indigo-600 mb-6 overflow-hidden">
                 {mentor.profilePicture ? (
-                  <img src={`http://localhost:5000${mentor.profilePicture}`} alt={mentor.name} className="w-full h-full object-cover" />
+                  <img src={`${API_BASE_URL}${mentor.profilePicture}`} alt={mentor.name} className="w-full h-full object-cover" />
                 ) : (
                   mentor.name[0]
                 )}
