@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Using the Vercel backend URL provided by the user
-// export const API_BASE_URL = 'https://campus-bridge-liart.vercel.app';
-export const API_BASE_URL = 'http://localhost:5000';
+export const API_BASE_URL = 'https://campus-bridge-liart.vercel.app';
+// export const API_BASE_URL = 'http://localhost:5000';
 
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
