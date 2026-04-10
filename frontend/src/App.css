@@ -1,42 +1,109 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Modern Responsive Layout Styles */
+
+:root {
+  --sidebar-width: 260px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Base Body Adjustments */
+body {
+  margin: 0;
+  overflow-x: hidden;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Sidebar behavior for Desktop */
+.desktop-sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex !important;
+  flex-direction: column;
+}
+
+/* Content Area behavior */
+.main-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+/* Mobile Topbar */
+.mobile-topbar {
+  display: none;
+  height: 64px;
+  background: white;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 0 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Mobile Drawer (Sidebar) */
+.mobile-sidebar-drawer {
+  position: fixed;
+  left: -100%;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background: white;
+  z-index: 50;
+  transition: left 0.3s ease;
+  box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.mobile-sidebar-drawer.open {
+  left: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 45;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .desktop-sidebar {
+    display: none !important;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+  
+  .mobile-topbar {
+    display: flex;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Stacking and Grids for smaller screens */
+@media (max-width: 768px) {
+  .responsive-flex {
+    flex-direction: column !important;
+  }
+  
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .p-responsive {
+    padding: 1rem !important;
   }
 }
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-} */
