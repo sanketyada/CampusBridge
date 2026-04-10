@@ -96,13 +96,13 @@ const UploadResource = ({ onUploadSuccess }) => {
                 <label className="block text-sm font-bold text-slate-600 mb-2">Category</label>
                 <select 
                   name="category" 
-                  className="w-full p-3 border rounded-xl"
+                  className="w-full p-3 border rounded-xl font-medium"
                   value={formData.category}
                   onChange={handleChange}
                 >
                   <option value="Notes">Notes</option>
-                  <option value="Question Paper">Question Paper</option>
-                  <option value="Guide">Guide</option>
+                  <option value="Previous Papers">Previous Papers</option>
+                  <option value="Guides">Guides</option>
                   <option value="Other">Other</option>
                 </select>
               </div>

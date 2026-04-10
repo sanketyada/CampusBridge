@@ -57,7 +57,7 @@ const MentorshipPage = () => {
               
               <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center font-black text-2xl text-indigo-600 mb-6 overflow-hidden">
                 {mentor.profilePicture ? (
-                  <img src={`${API_BASE_URL}${mentor.profilePicture}`} alt={mentor.name} className="w-full h-full object-cover" />
+                  <img src={mentor.profilePicture.startsWith('http') ? mentor.profilePicture : `${API_BASE_URL}${mentor.profilePicture}`} alt={mentor.name} className="w-full h-full object-cover" />
                 ) : (
                   mentor.name[0]
                 )}

@@ -82,7 +82,7 @@ const ProfilePage = () => {
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white p-2 shadow-xl">
               {authUser.profilePicture ? (
                 <img 
-                  src={`${API_BASE_URL}${authUser.profilePicture}`} 
+                  src={authUser.profilePicture.startsWith('http') ? authUser.profilePicture : `${API_BASE_URL}${authUser.profilePicture}`} 
                   alt="Profile" 
                   className="w-full h-full object-cover rounded-2xl"
                 />

@@ -62,7 +62,11 @@ const PostCard = ({ post }) => {
             {post.isAnonymous ? (
               <User size={20} className="text-slate-400" />
             ) : post.user?.profilePicture ? (
-              <img src={`${API_BASE_URL}${post.user.profilePicture}`} alt="Avatar" className="w-full h-full object-cover" />
+              <img 
+                src={post.user.profilePicture.startsWith('http') ? post.user.profilePicture : `${API_BASE_URL}${post.user.profilePicture}`} 
+                alt="Avatar" 
+                className="w-full h-full object-cover" 
+              />
             ) : (
               post.user?.name?.[0] || '?'
             )}
@@ -141,7 +145,10 @@ const PostCard = ({ post }) => {
               <div key={index} className="flex gap-3">
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-400 overflow-hidden">
                   {comment.user?.profilePicture ? (
-                    <img src={`${API_BASE_URL}${comment.user.profilePicture}`} className="w-full h-full object-cover" />
+                    <img 
+                      src={comment.user.profilePicture.startsWith('http') ? comment.user.profilePicture : `${API_BASE_URL}${comment.user.profilePicture}`} 
+                      className="w-full h-full object-cover" 
+                    />
                   ) : (
                     comment.name?.[0]
                   )}

@@ -32,7 +32,8 @@ const ResourceCard = ({ resource }) => {
       return;
     }
     // Logic to download from backend
-    window.open(`${API_BASE_URL}${resource.fileUrl}`, '_blank');
+    const url = resource.fileUrl.startsWith('http') ? resource.fileUrl : `${API_BASE_URL}${resource.fileUrl}`;
+    window.open(url, '_blank');
   };
 
   return (

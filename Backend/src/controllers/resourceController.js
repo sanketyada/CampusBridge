@@ -15,7 +15,7 @@ const uploadResource = async (req, res) => {
     title,
     category,
     subject,
-    fileUrl: `/uploads/${req.file.filename}`,
+    fileUrl: req.file.path, // Cloudinary provides the full URL in .path
   });
 
   const populatedResource = await Resource.findById(resource._id).populate('user', 'name role');

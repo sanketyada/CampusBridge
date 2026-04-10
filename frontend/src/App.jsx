@@ -55,7 +55,11 @@ const LayoutContent = ({ children }) => {
           <Link to="/profile" className="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-2xl transition-all group">
             <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center font-bold text-indigo-600 overflow-hidden border border-indigo-100 group-hover:border-indigo-300">
               {user.profilePicture ? (
-                <img src={`${API_BASE_URL}${user.profilePicture}`} alt="Avatar" className="w-full h-full object-cover" />
+                <img 
+                  src={user.profilePicture.startsWith('http') ? user.profilePicture : `${API_BASE_URL}${user.profilePicture}`} 
+                  alt="Avatar" 
+                  className="w-full h-full object-cover" 
+                />
               ) : (
                 user.name?.[0]?.toUpperCase()
               )}

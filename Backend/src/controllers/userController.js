@@ -44,7 +44,7 @@ const updateProfilePicture = async (req, res) => {
 
   const user = await User.findById(req.user._id);
   if (user) {
-    user.profilePicture = `/uploads/profiles/${req.file.filename}`;
+    user.profilePicture = req.file.path; // Cloudinary full URL
     await user.save();
     res.json({ profilePicture: user.profilePicture });
   } else {

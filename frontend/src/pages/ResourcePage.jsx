@@ -119,7 +119,7 @@ const ResourcePage = () => {
         </div>
       )}
 
-      {showUpload && <UploadResource onClose={() => { setShowUpload(false); fetchResources(); }} />}
+      {showUpload && <UploadResource onUploadSuccess={() => { setShowUpload(false); fetchResources(); }} />}
     </div>
   );
 };
