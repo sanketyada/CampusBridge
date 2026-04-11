@@ -52,16 +52,16 @@ const AIChatPage = () => {
 
   return (
     <div className="chat-container">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 flex items-center gap-3">
             AI Assistant <Sparkles className="text-indigo-500" />
           </h1>
-          <p className="text-slate-500 italic">24/7 academic & career guidance</p>
+          <p className="text-sm sm:text-base text-slate-500 italic">24/7 academic & career guidance</p>
         </div>
         <button 
           onClick={resetChat}
-          className="flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-semibold transition-all"
+          className="flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-semibold transition-all text-sm sm:text-base"
         >
           <RotateCcw size={18} /> Reset
         </button>
