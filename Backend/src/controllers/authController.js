@@ -5,7 +5,7 @@ const generateToken = require('../utils/generateToken');
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, department, yearOfStudy, company, achievements } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -18,6 +18,10 @@ const registerUser = async (req, res) => {
     email,
     password,
     role,
+    department,
+    yearOfStudy,
+    company,
+    achievements
   });
 
   if (user) {
@@ -26,6 +30,10 @@ const registerUser = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      department: user.department,
+      yearOfStudy: user.yearOfStudy,
+      company: user.company,
+      achievements: user.achievements,
       token: generateToken(user._id),
     });
   } else {
@@ -47,6 +55,11 @@ const loginUser = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      department: user.department,
+      yearOfStudy: user.yearOfStudy,
+      company: user.company,
+      achievements: user.achievements,
+      profilePicture: user.profilePicture,
       token: generateToken(user._id),
     });
   } else {
@@ -66,6 +79,11 @@ const getMe = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      department: user.department,
+      yearOfStudy: user.yearOfStudy,
+      company: user.company,
+      achievements: user.achievements,
+      profilePicture: user.profilePicture,
     });
   } else {
     res.status(404).json({ message: 'User not found' });

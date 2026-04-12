@@ -24,8 +24,17 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['student', 'alumni'],
+      enum: ['student', 'alumni', 'faculty', 'admin'],
       default: 'student',
+    },
+    department: {
+      type: String,
+      enum: ['BCA', 'BBA', 'BCOM', 'BSC', 'BA', 'MCA', 'MBA', 'MSC', 'Other'],
+    },
+    yearOfStudy: {
+      type: Number,
+      min: 1,
+      max: 5,
     },
     profilePicture: {
       type: String,
@@ -34,6 +43,23 @@ const userSchema = mongoose.Schema(
     bio: {
       type: String,
       maxlength: 200,
+    },
+    // Alumni-specific fields
+    company: {
+      type: String,
+    },
+    achievements: {
+      type: String,
+      maxlength: 500,
+    },
+    // Admin moderation fields
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    isBanned: {
+      type: Boolean,
+      default: false,
     },
   },
   {

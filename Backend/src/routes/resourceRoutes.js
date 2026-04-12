@@ -5,7 +5,10 @@ const { resourceStorage } = require('../config/cloudinary');
 const {
   uploadResource,
   getResources,
+  getResourceById,
   upvoteResource,
+  shareResource,
+  addResourceComment,
 } = require('../controllers/resourceController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -18,6 +21,9 @@ router.route('/')
   .get(getResources)
   .post(protect, upload.single('file'), uploadResource);
 
+router.get('/:id', getResourceById);
 router.put('/:id/upvote', protect, upvoteResource);
+router.put('/:id/share', protect, shareResource);
+router.post('/:id/comment', protect, addResourceComment);
 
 module.exports = router;

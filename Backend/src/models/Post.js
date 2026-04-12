@@ -29,11 +29,13 @@ const postSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add some content'],
     },
-    isAnonymous: {
-      type: Boolean,
-      default: false,
-    },
     likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    shares: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

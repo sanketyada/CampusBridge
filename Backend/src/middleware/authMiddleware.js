@@ -17,6 +17,15 @@ const protect = async (req, res, next) => {
 
       // Get user from the token and attach to req
       req.user = await User.findById(decoded.id).select('-password');
+      
+      if (!req.user) {
+        return res.status(401).json({ message: 'User not found' });
+      }
+
+      // Check if user is blocked or banned
+      if (req.user.isBlocked || req.user.isBanned) {
+        return res.status(403).json({ message: 'User is blocked or banned' });
+      }
 
       next();
     } catch (error) {
@@ -30,4 +39,24 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const admin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Not authorized as an admin' });
+  }
+};
+
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (req.user && roles.includes(req.user.role)) {
+      next();
+    } else {
+      res.status(403).json({ 
+        message: `Not authorized. Role '${req.user?.role}' does not have access.` 
+      });
+    }
+  };
+};
+
+module.exports = { protect, admin, authorize };

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Using the Vercel backend URL provided by the user
-export const API_BASE_URL = 'https://campus-bridge-liard.vercel.app';
-// export const API_BASE_URL = 'http://localhost:5000';
+// export const API_BASE_URL = 'https://campus-bridge-liard.vercel.app';
+export const API_BASE_URL = 'http://localhost:5000';
 
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
@@ -12,7 +12,7 @@ const api = axios.create({
 });
 
 // Add a request interceptor to include auth token
-api.interceptors.request.use(
+api.interceptors.request.use(                 
   (config) => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.token) {

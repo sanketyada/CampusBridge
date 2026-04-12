@@ -1,37 +1,81 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Download, ThumbsUp, MoreVertical, ExternalLink } from 'lucide-react';
+import { FileText, Download, ThumbsUp, MoreVertical, MessageCircle, Share2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api, { API_BASE_URL } from '../services/api';
 
 const ResourceCard = ({ resource }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [upvotes, setUpvotes] = useState(resource.upvotes || 0);
-  const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [upvoteIds, setUpvoteIds] = useState(() =>
+    Array.isArray(resource.upvotes) ? resource.upvotes : []
+  );
+  const [shareIds, setShareIds] = useState(() =>
+    Array.isArray(resource.shares) ? resource.shares : []
+  );
+  const [shareHint, setShareHint] = useState('');
 
-  const handleUpvote = async () => {
+  const hasUpvoted = useMemo(
+    () =>
+      user &&
+      upvoteIds.some((id) => id === user._id || id?.toString?.() === user._id?.toString?.()),
+    [user, upvoteIds]
+  );
+
+  const handleUpvote = async (e) => {
+    e.stopPropagation();
     if (!user) {
       navigate('/login');
       return;
     }
-    if (hasUpvoted) return;
 
     try {
       const res = await api.put(`/resources/${resource._id}/upvote`);
-      setUpvotes(res.data.upvotes);
-      setHasUpvoted(true);
+      setUpvoteIds(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Error upvoting:', err);
     }
   };
 
-  const handleDownload = () => {
+  const handleShare = async (e) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/resources?resource=${resource._id}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: resource.title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setShareHint('Link copied');
+        setTimeout(() => setShareHint(''), 2000);
+      }
+    } catch (err) {
+      if (err?.name !== 'AbortError') {
+        try {
+          await navigator.clipboard.writeText(url);
+          setShareHint('Link copied');
+          setTimeout(() => setShareHint(''), 2000);
+        } catch (_) {
+          setShareHint('Copy blocked');
+          setTimeout(() => setShareHint(''), 2000);
+        }
+      }
+    }
+
+    if (!user) return;
+    try {
+      const res = await api.put(`/resources/${resource._id}/share`);
+      setShareIds(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error('Error recording share:', err);
+    }
+  };
+
+  const handleDownload = (e) => {
+    e.stopPropagation();
     if (!user) {
       navigate('/login');
       return;
     }
-    // Logic to download from backend
     const url = resource.fileUrl.startsWith('http') ? resource.fileUrl : `${API_BASE_URL}${resource.fileUrl}`;
     window.open(url, '_blank');
   };
@@ -55,17 +99,34 @@ const ResourceCard = ({ resource }) => {
         <p className="text-slate-400 font-bold text-sm uppercase tracking-tight">{resource.subject}</p>
       </div>
 
-      <div className="flex items-center justify-between pt-6 border-t border-slate-50">
-        <button 
-          onClick={handleUpvote}
-          className={`flex items-center gap-2 font-bold transition-all ${hasUpvoted ? 'text-indigo-600' : 'text-slate-400 hover:text-indigo-600'}`}
-        >
-          <ThumbsUp size={18} fill={hasUpvoted ? 'currentColor' : 'none'} />
-          <span>{upvotes}</span>
-          <span className="text-[10px] uppercase opacity-50 ml-1">Helpful</span>
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-slate-50">
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={handleUpvote}
+            className={`flex items-center gap-2 font-bold transition-all ${hasUpvoted ? 'text-indigo-600' : 'text-slate-400 hover:text-indigo-600'}`}
+          >
+            <ThumbsUp size={18} fill={hasUpvoted ? 'currentColor' : 'none'} />
+            <span>{upvoteIds.length}</span>
+            <span className="text-[10px] uppercase opacity-50 ml-1">Like</span>
+          </button>
+          <span className="flex items-center gap-2 text-slate-400 font-bold text-sm">
+            <MessageCircle size={18} />
+            {resource.comments?.length ?? 0}
+          </span>
+          <button
+            type="button"
+            onClick={handleShare}
+            className="flex items-center gap-2 text-slate-400 hover:text-slate-800 font-bold text-sm"
+          >
+            <Share2 size={18} />
+            {shareIds.length > 0 ? shareIds.length : 'Share'}
+          </button>
+        </div>
+        {shareHint && <span className="text-[10px] font-bold text-indigo-600 w-full">{shareHint}</span>}
 
-        <button 
+        <button
+          type="button"
           onClick={handleDownload}
           className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-100"
         >
